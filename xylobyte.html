@@ -3,57 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xylobyte Game</title>
-    <style>
-        /* CSS styles go here */
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            background-color: #282c34;
-            color: white;
-            font-family: Arial, sans-serif;
-        }
-    </style>
+    <title>Xylobyte</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
 </head>
 <body>
-    <h1>Xylobyte Game</h1>
+    <div id="gameArea">
+        <h1>Xylobyte Game</h1>
+        <div id="comboDisplay"></div>
+        <div id="notes">
+            <!-- Game notes go here -->
+        </div>
+    </div>
     <script>
-        function playBeatSound(frequency) {
-            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            const oscillator = audioContext.createOscillator();
+        function playBeatSound(lane) {
+            const frequencies = [220, 330, 440, 550];
+            const audio = new AudioContext();
+            const oscillator = audio.createOscillator();
             oscillator.type = 'sine';
-            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-            oscillator.connect(audioContext.destination);
+            oscillator.frequency.setValueAtTime(frequencies[lane], audio.currentTime);
+            oscillator.connect(audio.destination);
             oscillator.start();
-            oscillator.stop(audioContext.currentTime + 0.1);
+            oscillator.stop(audio.currentTime + 0.5);
         }
 
-        function handleInput(key) {
-            switch (key) {
-                case 'ArrowLeft':
-                    playBeatSound(220);
-                    // handle lane 0 logic
-                    break;
-                case 'ArrowDown':
-                    playBeatSound(330);
-                    // handle lane 1 logic
-                    break;
-                case 'ArrowUp':
-                    playBeatSound(440);
-                    // handle lane 2 logic
-                    break;
-                case 'ArrowRight':
-                    playBeatSound(550);
-                    // handle lane 3 logic
-                    break;
+        function handleInput(note) {
+            // existing input handling code...
+            if (noteWasHit) {
+                const lane = getLane(note); // hypothetical function to get lane number
+                playBeatSound(lane);
+                // other logic... 
             }
         }
 
-        document.addEventListener('keydown', (event) => {
-            handleInput(event.key);
-        });
+        // Remaining script logic...
     </script>
 </body>
 </html>
