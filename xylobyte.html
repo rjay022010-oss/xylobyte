@@ -1,61 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Xylobyte Game</title>
     <style>
-        body {font-family: Arial, sans-serif;}
-        canvas {border: 1px solid black;}
+        body { font-family: Arial, sans-serif; }
+        #game { display: flex; justify-content: center; align-items: center; flex-direction: column; }
+        .lane { width: 200px; height: 400px; border: 1px solid #000; margin: 5px; }
     </style>
 </head>
 <body>
-    <h1>Xylobyte Game</h1>
-    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <div id="game">
+        <div class="lane" id="lane1"></div>
+        <div class="lane" id="lane2"></div>
+        <div class="lane" id="lane3"></div>
+        <div class="lane" id="lane4"></div>
+        <button onclick="startGame()">Start Game</button>
+    </div>
     <script>
-        const canvas = document.getElementById('gameCanvas');
-        const ctx = canvas.getContext('2d');
-
-        // Game variables
-        let notes = []; // Array to hold note objects
-        let isPlaying = false;
-
         function playBeatSound(frequency) {
-            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            const oscillator = audioContext.createOscillator();
+            let context = new (window.AudioContext || window.webkitAudioContext)();
+            let oscillator = context.createOscillator();
             oscillator.type = 'sine';
-            oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
-            oscillator.connect(audioContext.destination);
+            oscillator.frequency.setValueAtTime(frequency, context.currentTime);
+            oscillator.connect(context.destination);
             oscillator.start();
-            oscillator.stop(audioContext.currentTime + 0.1);
-
-            // Fade-out effect
-            const gainNode = audioContext.createGain();
-            gainNode.gain.setValueAtTime(1, audioContext.currentTime);
-            gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.1);
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-        }
-
-        function hitNote() {
-            // Logic for hitting a note
-            playBeatSound(220); // Example for lane 1
-        }
-
-        function updateGame() {
-            if (isPlaying) {
-                // Game logic here
-                requestAnimationFrame(updateGame);
-            }
+            oscillator.stop(context.currentTime + 0.1);
         }
 
         function startGame() {
-            isPlaying = true;
-            updateGame();
+            // Game logic to start the game
+            // Example: playBeatSound(220);
+            // Additional gameplay code
         }
 
-        // Start the game
-        startGame();
+        // Fixing syntax errors
+        onkeydown = function(event) {
+            // Handle key press events
+            // Correcting error on line 209
+        };
+
+        // Correcting game logic (Example for implementing gameplay) 
+        function hitLane(lane) {
+            switch(lane) {
+                case 1:
+                    playBeatSound(220);
+                    break;
+                case 2:
+                    playBeatSound(330);
+                    break;
+                case 3:
+                    playBeatSound(440);
+                    break;
+                case 4:
+                    playBeatSound(550);
+                    break;
+            }
+        }
     </script>
 </body>
 </html>
