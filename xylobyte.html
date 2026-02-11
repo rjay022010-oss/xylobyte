@@ -3,7 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Xylobyte</title>
+    <title>Xylobyte Game</title>
+    <style>
+        /* CSS styles go here */
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #282c34;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <h1>Xylobyte Game</h1>
     <script>
         function playBeatSound(frequency) {
             const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -13,32 +28,32 @@
             oscillator.connect(audioContext.destination);
             oscillator.start();
             oscillator.stop(audioContext.currentTime + 0.1);
-            // Add exponential fade out
-            const gainNode = audioContext.createGain();
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-            gainNode.gain.setValueAtTime(1, audioContext.currentTime);
-            gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1);
         }
 
-        function hitArrowLane(lane) {
-            switch (lane) {
-                case 'lane1': playBeatSound(220); break;
-                case 'lane2': playBeatSound(330); break;
-                case 'lane3': playBeatSound(440); break;
-                case 'lane4': playBeatSound(550); break;
-                default: break;
+        function handleInput(key) {
+            switch (key) {
+                case 'ArrowLeft':
+                    playBeatSound(220);
+                    // handle lane 0 logic
+                    break;
+                case 'ArrowDown':
+                    playBeatSound(330);
+                    // handle lane 1 logic
+                    break;
+                case 'ArrowUp':
+                    playBeatSound(440);
+                    // handle lane 2 logic
+                    break;
+                case 'ArrowRight':
+                    playBeatSound(550);
+                    // handle lane 3 logic
+                    break;
             }
         }
+
+        document.addEventListener('keydown', (event) => {
+            handleInput(event.key);
+        });
     </script>
-</head>
-<body>
-    <h1>Xylobyte</h1>
-    <div>
-        <button onclick="hitArrowLane('lane1')">Lane 1</button>
-        <button onclick="hitArrowLane('lane2')">Lane 2</button>
-        <button onclick="hitArrowLane('lane3')">Lane 3</button>
-        <button onclick="hitArrowLane('lane4')">Lane 4</button>
-    </div>
 </body>
 </html>
